@@ -44,7 +44,9 @@ export function TaskList() {
   }
 
   function handleRemoveTask(id: number) {
-    // Remova uma task da listagem pelo ID
+    return () => {
+      setTasks((tasks) => tasks.filter((task) => task.id !== id));
+    };
   }
 
   return (
@@ -92,7 +94,7 @@ export function TaskList() {
               <button
                 type="button"
                 data-testid="remove-task-button"
-                onClick={() => handleRemoveTask(task.id)}
+                onClick={handleRemoveTask(task.id)}
               >
                 <FiTrash size={16} />
               </button>
