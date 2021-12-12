@@ -13,17 +13,23 @@ type Task = {
 export function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [isEmptyTitleTask, setIsEmptyTitleTask] = useState(false);
 
   function handleCreateNewTask() {
+    if (!newTaskTitle) {
+      setIsEmptyTitleTask(true);
+      return;
+    }
+
     const task = {
       id: Math.round(Math.random() * 1000),
       title: newTaskTitle,
       isComplete: false,
     };
 
-    console.dir(task);
-
     setTasks((tasks) => [...tasks, task]);
+    setIsEmptyTitleTask(false);
+    setNewTaskTitle("");
   }
 
   function handleToggleTaskCompletion(id: number) {
@@ -60,6 +66,7 @@ export function TaskList() {
             placeholder="Adicionar novo todo"
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
+            required
           />
           <button
             type="submit"
@@ -68,6 +75,7 @@ export function TaskList() {
           >
             <FiCheckSquare size={16} color="#fff" />
           </button>
+          {isEmptyTitleTask && <p>Campo vazio, digite o título da tarefa</p>}
         </div>
       </header>
 
