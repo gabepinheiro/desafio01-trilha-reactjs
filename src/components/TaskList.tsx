@@ -27,7 +27,20 @@ export function TaskList() {
   }
 
   function handleToggleTaskCompletion(id: number) {
-    // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
+    return () => {
+      setTasks((tasks) =>
+        tasks.map((task) => {
+          if (task.id === id) {
+            return {
+              ...task,
+              isComplete: !task.isComplete,
+            };
+          }
+
+          return task;
+        })
+      );
+    };
   }
 
   function handleRemoveTask(id: number) {
@@ -69,7 +82,7 @@ export function TaskList() {
                     type="checkbox"
                     readOnly
                     checked={task.isComplete}
-                    onClick={() => handleToggleTaskCompletion(task.id)}
+                    onClick={handleToggleTaskCompletion(task.id)}
                   />
                   <span className="checkmark"></span>
                 </label>
